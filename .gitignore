@@ -1,0 +1,31 @@
+# Build artifacts
+build/
+Debug/
+Release/
+MinSizeRel/
+RelWithDebInfo/
+x64/
+
+# CMake temporary files
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles/
+ZERO_CHECK.vcxproj*
+ALL_BUILD.vcxproj*
+
+# Visual Studio files
+*.slnx
+*.vcxproj
+*.vcxproj.filters
+*.user
+
+# Compiled output
+*.pdb
+*.lib
+*.exp
+*.aul2
+*.aux2
+*.obj2
+
+# Dependency directory
+aviutl2_latest/
