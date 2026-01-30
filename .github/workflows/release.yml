@@ -1,0 +1,69 @@
+name: Create Release and Upload Artifacts
+
+# ワークフローが実行されるタイミングを定義
+on:
+  push:
+    # 'v'で始まるタグ（例: v1.0.0, v1.2.3）がプッシュされた時のみ実行
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    # 実行環境としてWindowsの最新版を指定
+    runs-on: windows-latest
+
+    # ワークフローがリポジトリに書き込む権限を設定
+    permissions:
+      contents: write
+
+    steps:
+      # 1. リポジトリのソースコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 新しいリリースをGitHub上に作成
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }} # トリガーとなったタグ名
+          release_name: Release ${{ github.ref_name }}
+          body: '自動生成されたリリースです。'
+          draft: false
+          prerelease: false
+
+      # 3. ビルド用ディレクトリを作成
+      - name: Create build directory
+        run: mkdir build
+
+      # 4. CMakeプロジェクトを構成 (32bit版として)
+      - name: Configure CMake
+        working-directory: ./build
+        run: cmake .. -A Win32
+
+      # 5. Release版をビルド
+      - name: Build Release
+        working-directory: ./build
+        run: cmake --build . --config Release
+
+      # 6. Debug版をビルド
+      - name: Build Debug
+        working-directory: ./build
+        run: cmake --build . --config Debug
+
+      # 7. Release成果物をZIP化
+      - name: Zip Release artifact
+        shell: powershell
+        run: Compress-Archive -Path build/Release/SaveAliasOld.aux2 -DestinationPath SaveAliasOld-Release.zip
+
+      # 8. Debug成果物をZIP化 (シンボルファイルも同梱)
+      - name: Zip Debug artifact
+        shell: powershell
+        run: Compress-Archive -Path build/Debug/SaveAliasOld.aux2, build/Debug/SaveAliasOld.pdb -DestinationPath SaveAliasOld-Debug.zip
+
+      # 9. 作成したリリースに成果物ZIPをアップロード
+      - name: Upload artifacts to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ github.ref_name }} SaveAliasOld-Release.zip SaveAliasOld-Debug.zip --clobber
