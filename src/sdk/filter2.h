@@ -8,6 +8,9 @@
 //	フィルタ構造体のポインタを渡す関数 (必須)
 //		FILTER_PLUGIN_TABLE* GetFilterPluginTable(void)
 //
+//	必要とする本体バージョン番号取得関数 (任意)
+//		DWORD RequiredVersion() ※必要な本体のバージョン番号を返却します
+//
 //	プラグインDLL初期化関数 (任意)
 //		bool InitializePlugin(DWORD version) ※versionは本体のバージョン番号
 // 
@@ -117,7 +120,7 @@ struct FILTER_ITEM_BUTTON {
 	FILTER_ITEM_BUTTON(LPCWSTR name, void (*callback)(EDIT_SECTION* edit)) : name(name), callback(callback) {}
 	LPCWSTR type = L"button";			// 設定の種別
 	LPCWSTR name;						// 設定名
-	void (*callback)(EDIT_SECTION*);	// ボタンを押した時のコールバック関数
+	void (*callback)(EDIT_SECTION*);	// ボタンを押した時のコールバック関数 (呼び出し時に各設定項目の設定値が更新されます)
 };
 
 // 文字列項目構造体 ※1行の文字列
@@ -164,6 +167,7 @@ struct SCENE_INFO {
 // オブジェクト情報構造体
 struct OBJECT_INFO {
 	int64_t id;				// オブジェクトのID (アプリ起動毎の固有ID)
+							// ※描画対象のオブジェクトの固有ID
 	int frame;				// オブジェクトの現在のフレーム番号
 	int frame_total;		// オブジェクトの総フレーム数
 	double time;			// オブジェクトの現在の時間(秒)
