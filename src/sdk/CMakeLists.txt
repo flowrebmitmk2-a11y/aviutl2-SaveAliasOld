@@ -17,7 +17,10 @@ endif()
 # 第1引数: ライブラリのターゲット名
 # 第2引数: SHAREDはDLLを作成することを示す
 # 第3引数以降: ソースファイル
-add_library(SaveAliasOld SHARED SaveAliasOld.cpp)
+add_library(SaveAliasOld SHARED ../SaveAliasOld.cpp)
+
+# このターゲットがヘッダーファイルをインクルードできるように、カレントディレクトリをインクルードパスに追加
+target_include_directories(SaveAliasOld PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # WindowsのAPIに必要なライブラリをリンク
 target_link_libraries(SaveAliasOld PRIVATE shlwapi user32 comdlg32)
