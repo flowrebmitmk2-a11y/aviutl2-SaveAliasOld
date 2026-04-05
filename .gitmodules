@@ -1,0 +1,3 @@
+[submodule "external/aviutl2-plugin-sdk"]
+	path = external/aviutl2-plugin-sdk
+	url = https://github.com/aviutl2/aviutl2_sdk_mirror.git

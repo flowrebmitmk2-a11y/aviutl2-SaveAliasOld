@@ -3,9 +3,9 @@
 #include <shlwapi.h> // For PathRemoveFileSpecW
 #pragma comment(lib, "shlwapi.lib")
 
-#include "plugin2.h"
-#include "logger2.h"
-#include "config2.h"
+#include <aviutl2_sdk/plugin2.h>
+#include <aviutl2_sdk/logger2.h>
+#include <aviutl2_sdk/config2.h>
 
 // --- グローバル/静的変数 ---
 // 最後に保存したファイルのディレクトリパスを保持し、次回のダイアログの初期ディレクトリとして使用します。
