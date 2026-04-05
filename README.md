@@ -1,13 +1,17 @@
 ﻿# SaveAliasOld
 
-`SaveAliasOld` は AviUtl2 用の `.aux2` プラグインです。選択中オブジェクトの alias をファイル保存する用途を想定し、GitHub 公開と自動ビルドに対応しやすい形へ整理しています。
+`SaveAliasOld` は AviUtl2 用のプラグインです。選択中オブジェクトの alias を `.object` ファイルとして保存します。
 
-## 主な内容
+## 導入方法
 
-- AviUtl2 向けのプラグイン本体
-- CMake ベースのビルド構成
-- GitHub Actions による自動ビルド
-- SDK サブモジュール前提の構成
+1. `SaveAliasOld.aux2` を AviUtl2 のプラグイン配置先へ置きます。
+2. 必要に応じて AviUtl2 を再起動します。
+
+## AviUtl2 上での簡単な使い方
+
+1. 保存したいオブジェクトを選択します。
+2. オブジェクトメニューから `エイリアスを保存旧` を実行します。
+3. 保存先を選ぶと `.object` ファイルとして書き出されます。
 
 ## ディレクトリ構成
 
@@ -48,6 +52,3 @@ cmake --build build --config Release
 - pull request
 - 手動実行
 - `repository_dispatch` の `sdk-updated`
-
-
-
